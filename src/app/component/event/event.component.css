@@ -1,0 +1,26 @@
+.calendar-custom{
+    background: white;
+    padding: 4%;
+    /* border-radius: 20px; */
+    min-width: 343px;
+    /* min-height: 450px; */
+}
+
+.glyphicon-time:before{
+    padding-right: 10px;
+    font-size: 20px;
+}
+
+.description,.location,.planner-type{
+    display: block;
+    margin: auto;
+}
+
+.glyphicon:before{
+    font-size: 20px;
+    padding-right: 10px
+}
+
+.modal{
+    overflow-y: scroll;
+}
