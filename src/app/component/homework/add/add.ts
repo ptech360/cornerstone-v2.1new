@@ -29,8 +29,7 @@ export class HomeworkAddComponent implements OnInit {
   constructor(private homeworkService: HomeworkService,
     private commonService: CommonService,
     private _location: Location,
-    public router: Router) {        
-      
+    public router: Router) {              
  }
 
 
@@ -38,24 +37,23 @@ export class HomeworkAddComponent implements OnInit {
     this.initForm();
     this.getStandards();
   }
-  file: any;
+  file: any[]=[];
 
   getFile(event: any) {
-
-    var blob = event.srcElement.files[0];
-
-    console.log(event);
-    console.log(blob);
-    if (blob.type == "image/png" || blob.type == "image/jpeg" || blob.type == "image/jpg") {
-      this.file = event.srcElement.files[0];
-    }
-    else {
-      $('#errorModal').modal('show');
-      this.homework.controls['file'].reset();
-     
-      // this.homework.controls.file.markAsPristine();
-      //   this.homework.controls.file.reset();
-    }
+        for(let i=0;i<event.srcElement.files.length;i++){
+        var blob = event.srcElement.files[i];
+        console.log(event.srcElement.files);
+        console.log(blob);
+        
+          if(blob.type=="image/png" || blob.type=="image/jpeg" || blob.type=="image/jpg"){
+            this.file[i] = event.srcElement.files[i];
+            console.log(this.file);
+          }
+          else{
+            $('#errorModal').modal('show');
+            this.homework.controls['files'].reset();
+           }}   
+    
   }
 
   onDueDate(e: any) {
@@ -107,13 +105,20 @@ export class HomeworkAddComponent implements OnInit {
 
   submitHomework() {
     this.submitProgress = true;
-    let formData = new FormData();
+    let formData : FormData = new FormData();
     formData.append('description', this.homework.value['description']);
     formData.append('standardId', this.homework.value['standardId']);
     formData.append('subjectId', this.homework.value['subjectId']);
     formData.append('dueDate', this.homework.value['dueDate']);
-    formData.append('file', this.file);
+    
+    for(let i = 0;i<this.file.length;i++){
+      formData.append('files', this.file[i]);
+    }
+    
+    
+    console.log(formData);
     this.saveHomework(formData);
+    
     // this.submitProgress = false;
   }
 
@@ -148,5 +153,4 @@ export class HomeworkAddComponent implements OnInit {
     });
     this.file=null;
   }
-
 }

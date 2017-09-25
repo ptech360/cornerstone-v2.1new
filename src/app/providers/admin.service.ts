@@ -59,7 +59,7 @@ export class AdminService {
     });
     return this.http.post(this.baseUrl + "admin/student", data, option)
       .map(this.extractData)
-      .catch(this.handleError);
+      
   }
 
   public getAllStudents(stdId:any){

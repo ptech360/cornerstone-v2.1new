@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { AdminService } from '../../../providers/admin.service';
 import { FormGroup, FormArray, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from '../../../providers/formValidation.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderStop } from '../../../providers/loaderstop.service';
 // import { Order } from '../../../providers/order.filter'; 
 
@@ -49,20 +49,27 @@ export class ExistingStudentComponent implements OnDestroy {
   public selectedStandardId:any;
   public showStudent:boolean=false;
   public totalStudents:any;
-  public studentsInfo:any;
+  public studentsInfo:any[];
   public showSearch:boolean=false;
   public showTable:boolean=false;
-  public filter:any;
+  public filter:any=1;
   public showSibling:boolean=true;
   public showParent:boolean=true;
   public showStudentOnly:boolean=false;
   public noStudents:boolean=false;
+  public standardId:any="";
   // public showStudentDetails:boolean=false;
   constructor(public _location: Location,
     public as: AdminService,
     public fb: FormBuilder,
     public router: Router,
-    public ls : LoaderStop) {
+    public ls : LoaderStop,
+    public actRoute:ActivatedRoute) {
+
+    this.actRoute.params.subscribe((param:any)=>{
+      if(param['standardId'])  this.standardId = param['standardId'];
+      if(param['studentId'])  this.getStudentDetails(param['studentId']);
+    })
 
     this.fileUrl = localStorage.getItem('fileUrl');
     this.ls.setLoader(false);

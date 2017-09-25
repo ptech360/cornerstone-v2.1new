@@ -22,7 +22,7 @@ export class AddCircular implements OnInit, AfterViewInit {
   public buttonlabel : string = 'Select Standard';
   public emptyStandards = false;
   public circularType: any;
-  public file: any;
+  public file: any[]=[];
   public loader: boolean = false;
   public submitProgress: boolean = false;
   public standardLoader:boolean=false;
@@ -55,7 +55,7 @@ export class AddCircular implements OnInit, AfterViewInit {
       description: new FormControl('', [Validators.required]),
       date: new FormControl(this.commonService.getTomorrow(), [Validators.required]),
       circularTypeId: new FormControl('', [Validators.required]),
-      file: new FormControl('')
+      files: new FormControl('')
       // standardIds: new FormControl([], [Validators.required])
     });
   }
@@ -148,6 +148,7 @@ export class AddCircular implements OnInit, AfterViewInit {
     this.submitProgress = true;
 
     let formData = new FormData();
+    console.log(formData);
     formData.append('title', this.circular.value['title']);
     formData.append('description', this.circular.value['description']);
     formData.append('circularTypeId', this.circular.value['circularTypeId']);
@@ -155,8 +156,13 @@ export class AddCircular implements OnInit, AfterViewInit {
       formData.append('standardIds', this.circular.value['standardIds']);
     }
     formData.append('date', this.circular.value['date']);
-    formData.append('file', this.file);
+    for(let i=0; i< this.file.length;i++){
+      formData.append('files', this.file[i]);  
+    }
+    
     this.onSubmit(formData);
+     console.log(formData);
+
     // this.submitProgress = false;
   }
   stdIds: any = [];
@@ -193,6 +199,7 @@ export class AddCircular implements OnInit, AfterViewInit {
 
   public onSubmit(formData: any) {
     this.submitProgress = true;
+    console.log(formData);
     this.circserv.PostCircular(formData).subscribe((data) => {
       this.submitProgress = false;
       this.circular = this.initForm();
@@ -206,13 +213,20 @@ export class AddCircular implements OnInit, AfterViewInit {
   }
 
     getFile(event: any) {
-    var blob = event.srcElement.files[0];
-    if(blob.type=="image/png" || blob.type=="image/jpeg" || blob.type=="image/jpg"){
-      this.file = event.srcElement.files[0];
-    }
-    else{
-       $('#errorModal').modal('show');
-      this.circular.controls['file'].reset();
-    }
+      
+      for(let i=0;i<event.srcElement.files.length;i++){
+        var blob = event.srcElement.files[i];
+        console.log(event.srcElement.files);
+        console.log(blob);
+        
+          // if(blob.type=="image/png" || blob.type=="image/jpeg" || blob.type=="image/jpg"){
+            this.file[i] = event.srcElement.files[i];
+            console.log(this.file);
+          // }
+          // else{
+          //   $('#errorModal').modal('show');
+          //   this.circular.controls['files'].reset();
+          //  }
+        }
   }
 }

@@ -90,8 +90,8 @@
         <div class="col-lg-6">
           <div class="form-group">
             <div>Attachment<span class="small">(Optional)</span></div>
-            <input type="file" accept="images/*" class="form-control-file" formControlName="file" id="exampleInputFile" aria-describedby="fileHelp"
-              (change)="getFile($event)" accept="image/*">
+            <input type="file"  class="form-control-file" formControlName="files" id="exampleInputFile" aria-describedby="fileHelp"
+              (change)="getFile($event)"  multiple>
             <!--<small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>-->
           </div>
         </div>

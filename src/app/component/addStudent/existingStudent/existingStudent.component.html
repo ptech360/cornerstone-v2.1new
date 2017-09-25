@@ -8,8 +8,10 @@
             </div> 
           <div class="row">
           <label for="standardId">Standard</label>
-              <select (change)="onSelectStandard($event.target.value)" class="form-control">
-                <option disabled="disabled" selected="selected">Select a standard</option>
+              <select [(ngModel)]="standardId" (change)="onSelectStandard($event.target.value)" class="form-control">
+                
+                <option disabled="disabled" selected="selected" value="" >Select a standard</option>
+                
                 <option *ngFor="let s of standards" [value]="s.id" >{{s.name}}</option>
               </select>
               <loader [condition]="standardLoader" class="dropdownLoader"></loader>
@@ -26,7 +28,7 @@
 
           <div class="row searchStu">
           <label >Student</label>
-          <span class="badge" *ngIf="students" >Total Students : {{totalStudents}}</span>
+          <span class="badge" *ngIf="students && selectedStudent==null " >Total Students : {{totalStudents}}</span>
           
               <input class="form-control" *ngIf="selectedStudent==null" type="text" placeholder="Search by Student Name ... " (keyup)="searchStudents($event)">
               <input *ngIf="selectedStudent" class="form-control" type="text" value="{{selectedStudent.name}}" onfocus="this.value= ''"
@@ -73,7 +75,7 @@
         <div class=" col-sm-4 col-xs-6">
           <label>Filter</label>
           <select (ngModelChange)="filterDetails($event)" [(ngModel)]="filter" class="form-control" >
-            <option [value]="1" *ngIf="!showParent || !showSibling">All Details</option>
+            <option [value]="1">All Details</option>
             <option [value]="2">Only Sibling Details</option>
             <option [value]="3">Only Parent Details</option> 
             <option [value]="4">Only Student List</option>                                   

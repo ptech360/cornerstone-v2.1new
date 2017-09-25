@@ -12,14 +12,18 @@ import { NewStudentComponent } from './newStudent/newStudent.component';
 				path : '',
 				component : AddStudentComponent,
 				children : [
-							{
-				path : 'existing-student',
-				component : ExistingStudentComponent
+				{
+					path : 'existing-student',
+					component : ExistingStudentComponent
 				},
-			{
-				path : 'new-student',
-				component : NewStudentComponent
-			}
+				{
+					path : 'existing-student/:standardId/:studentId',
+					component : ExistingStudentComponent
+				},
+				{
+					path : 'new-student',
+					component : NewStudentComponent
+				}
 				]
 			}
 			

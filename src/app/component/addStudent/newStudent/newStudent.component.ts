@@ -17,7 +17,7 @@ export class NewStudentComponent implements OnDestroy {
 
   public loader: boolean = false;
   public standardLoader:boolean=false;
-
+  public messages : any;
   //NewStudent
   public standards: any[];
   // public parents: any[] = [{ id: 1, name: 'Father' },
@@ -26,8 +26,9 @@ export class NewStudentComponent implements OnDestroy {
   public parent: any[];
 
   public newStudentForm: FormGroup;
-
-
+  public mes:any[];
+  public stuId:any[]=[];
+  public stanId:any[]=[];
   constructor(public _location: Location,
     public as: AdminService,
     public fb: FormBuilder,
@@ -96,8 +97,16 @@ export class NewStudentComponent implements OnDestroy {
       this.loader= false;
     },
       err => {
-        if (err === "400 - Bad Request") {
+        if (err.status == 400) {
+          
           this.initNewStudentForm();
+          this.messages =err.json() ;
+          this.mes = JSON.parse(this.messages.message);
+          for(let i=0;i<this.mes.length;i++){
+            this.stuId[i] = this.mes[i].studentId ;
+          this.stanId[i] = this.mes[i].standardId;  
+          }
+          
           $('#errModal').modal('show');
         }
         else{
@@ -112,6 +121,9 @@ export class NewStudentComponent implements OnDestroy {
      this.router.navigate(['/error']);
   }
 
-
-
+  navigateToExisting( standardid:any,studentid:any){
+    
+    $('#errModal').modal('hide');
+    this.router.navigate(["/add-student","existing-student",standardid,studentid]);
+  }
 }

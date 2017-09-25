@@ -39,7 +39,7 @@
           </select> -->
 
           <input type="text" class="form-control" placeholder="Select Student" name="studentId" id="try" (keyup)="trychange($event)">
-          <ul class="list-group" *ngIf="!isEmpty">
+          <ul class="list-group" style="height:165px; overflow: auto;" *ngIf="!isEmpty">
             <li class="list-group-item" *ngFor=" let s of students" (click)="selectstudent(s)">{{s.name}}</li>
           </ul>
       <loader [condition]="studentLoader" class="dropdownLoader"></loader>                  
